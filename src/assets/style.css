@@ -6,6 +6,22 @@
   width: 50%;
   margin: 0 auto;
 }
+
+h1, h2 {
+  font-weight: normal;
+}
+
+a {
+  color: #42b983;
+}
+
+hr {
+   border: 0;
+   width: 97%;
+   border-top: 1px solid #2c3e50;
+   opacity: .2;
+}
+
 .inputsearch {
     width: 90%;
     box-sizing: border-box;
@@ -40,10 +56,14 @@
 }
 
 .pagination a:hover:not(.active) {background-color: #ddd;}
-h1, h2 {
-  font-weight: normal;
-}
 
-a {
-  color: #42b983;
+.filtersearch{
+  height: 20px;
+  margin: 15px;
+}
+.alignorder {
+  float: right;
+}
+.alignfilter {
+  float: left;
 }

@@ -1,14 +1,16 @@
 <template>
-  <div align="center">
+  <div>
     <input class="inputsearch" type="text" name="search" placeholder="Searching..."/>
-    <button class="button">filter</button>
-    <div >
-      <ul v-for="item in list">
+    <button class="button" @click="filterClicked = !filterClicked">filter</button>
+    <filter-search v-if="filterClicked"></filter-search>
+    <hr>
+    <div>
+      <ul align="left" v-for="item in list">
         - {{ item.text }}
       </ul>
-      <div class="pagination" v-for="page in pagenum">
-        <a href="#">{{ page }}</a>
-      </div>
+    </div>
+    <div class="pagination" v-for="page in pagenum">
+      <a href="#">{{ page }}</a>
     </div>
   </div>
 </template>
@@ -22,6 +24,7 @@ export default {
         { text: 'Second repo' },
         { text: 'Third repo' }
       ],
+      filterClicked: false,
       pagenum: 5,
     }
   }
