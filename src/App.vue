@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1>{{ title }}</h1>
+    <h1>{{ header }}</h1>
     <home></home>
   </div>
 </template>
@@ -10,7 +10,7 @@ export default {
   name: 'app',
   data () {
     return {
-      title: 'List of Gihtub public repos'
+      header: 'Search of all Github repositories containing a keyword'
     }
   }
 }

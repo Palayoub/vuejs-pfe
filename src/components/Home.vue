@@ -1,15 +1,15 @@
 <template>
   <div>
-    <input class="inputsearch" type="text" name="search" placeholder="Searching..." @input="changedSearch"/>
+    <input class="inputsearch" type="text" name="search" :placeholder="searchQuery" @input="changedSearch"/>
     <button class="button" @click="filterClicked = !filterClicked">filter</button>
     <filter-search v-if="filterClicked" @orderChanged="orderChanged" @filterChanged="filterChanged"></filter-search>
     <hr>
-    <span v-if="errors">{{ this.errors.response.data.message }} | Retry in few seconds</span>
+    <span v-if="errors">{{ this.errors.response.data.message | split }} | Retry in few seconds</span>
     <div v-else>
       <ul align="left" v-for="item in repos">
         <li>
         <span style="float:left;">{{ item.full_name }}</span>
-        <span style="float:right;">F:{{ item.forks_count }} S:{{ item.watchers_count }} A:0</span>
+        <span style="float:right;">Forks: {{ item.forks_count }} | Stars: {{ item.watchers_count }}</span>
         </li>
       </ul>
       <div class="pagination" v-for="page in pagenum">
@@ -18,7 +18,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import axios from 'axios';
 
@@ -27,10 +26,11 @@ const API = 'https://api.github.com/search/repositories?q=';
 export default {
   data () {
     return {
-      searchQuery: 'ayoub',
+      searchQuery: 'github',
       filterClicked: false,
       checkedOrder: '',
       checkedFilters: [],
+      filterQuery: '',
       pagenum: 1,
       perpage: 20,
       repos: [],
@@ -44,10 +44,11 @@ export default {
   methods: {
   //Method to make a remote request to our API
     fetchRepos(pagenum) {
-      axios.get(API + this.searchQuery + '&per_page=' + this.perpage + '&page=' + pagenum + '&sort=' + this.checkedOrder + '&order=desc')
+      axios.get(API + this.searchQuery + this.filterQuery + '&per_page=' + this.perpage + '&page=' + pagenum + '&sort=' + this.checkedOrder + '&order=desc')
         .then(response => {
-          //we get the number of pages from the header of our response
-          this.pagenum = parseInt(response.headers.link.split(';')[1].split('=')[4]);
+        //only update page number if there are multiple pages
+          if('link' in response.headers)
+            this.pagenum = parseInt(response.headers.link.split(';')[1].split('=')[4]);
           this.repos = response.data.items
         })
       .catch(e => {
@@ -66,7 +67,14 @@ export default {
     },
     filterChanged(event) {
       this.checkedFilters = event;
-      console.log(this.checkedFilters[0]);
+      //Basic implementation to apply the filters (if Stars filter is selected only no starred repo are displayed and same with Fork)
+      if(this.checkedFilters.length > 0) {
+        this.filterQuery = this.checkedFilters.includes('stars') ? ' stars:<1 ' : this.filterQuery;
+        this.filterQuery = this.checkedFilters.includes('forks') ? ' forks:<1 ' : this.filterQuery;
+        this.filterQuery = (this.checkedFilters.includes('stars') && this.checkedFilters.includes('forks'))? ' forks:<1+stars:<1 ' : this.filterQuery;
+      }
+      else this.filterQuery = '';
+      this.fetchRepos(1);
     }
   }
 }

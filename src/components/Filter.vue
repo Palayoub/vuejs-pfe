@@ -1,20 +1,18 @@
 <template>
   <div class="filtersearch">
-  <span class="alignorder">Order by:
+  <span class="alignorder">Sort:
     <select @input="orderClicked">
       <option selected value="">Best match</option>
       <option value="stars">Stars</option>
       <option value="forks">Forks</option>
-      <option value="updated">Updated</option>
+      <option value="updated">Updated (Activity)</option>
     </select>
   </span>
   <span class="alignfilter">Filter by:
     <input type="checkbox" id="stars" value="stars" v-model="checkedValues" @change="filterClicked">
-    <label for="jack">Stars</label>
+    <label>Stars</label>
     <input type="checkbox" id="forks" value="forks" v-model="checkedValues" @change="filterClicked">
-    <label for="john">Forks</label>
-    <input type="checkbox" id="activity" value="activity" v-model="checkedValues" @change="filterClicked">
-    <label for="mike">Activity</label>
+    <label>Forks</label>
   </span>
   </div>
 </template>
