@@ -2,7 +2,8 @@
   <div class="filtersearch">
   <span class="alignorder">Order by:
     <select @input="orderClicked">
-      <option selected value="stars">Stars</option>
+      <option selected value="">Best match</option>
+      <option value="stars">Stars</option>
       <option value="forks">Forks</option>
       <option value="updated">Updated</option>
     </select>

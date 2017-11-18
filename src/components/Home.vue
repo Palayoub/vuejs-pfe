@@ -21,7 +21,9 @@
 
 <script>
 import axios from 'axios';
+
 const API = 'https://api.github.com/search/repositories?q=';
+
 export default {
   data () {
     return {
@@ -42,7 +44,7 @@ export default {
   methods: {
   //Method to make a remote request to our API
     fetchRepos(pagenum) {
-      axios.get(API + this.searchQuery + '&per_page=' + this.perpage + '&page=' + pagenum)
+      axios.get(API + this.searchQuery + '&per_page=' + this.perpage + '&page=' + pagenum + '&sort=' + this.checkedOrder + '&order=desc')
         .then(response => {
           //we get the number of pages from the header of our response
           this.pagenum = parseInt(response.headers.link.split(';')[1].split('=')[4]);
@@ -56,10 +58,10 @@ export default {
     changedSearch(event) {
       //call fetchRepos with searched query if its not empty
       if(event.target.value != '')
-        this.searchQuery = event.target.value, this.fetchRepos(this.pagenum);
+        this.searchQuery = event.target.value, this.fetchRepos(1);
     },
     orderChanged(event) {
-      this.checkedOrder = event;
+      this.checkedOrder = event, this.fetchRepos(1);
       console.log(this.checkedOrder);
     },
     filterChanged(event) {
