@@ -1,13 +1,16 @@
 <template>
   <div>
-    <input class="inputsearch" type="text" name="search" placeholder="Searching..." debounce="1000" @input="changedSearch"/>
+    <input class="inputsearch" type="text" name="search" placeholder="Searching..." @input="changedSearch"/>
     <button class="button" @click="filterClicked = !filterClicked">filter</button>
-    <filter-search v-if="filterClicked"></filter-search>
+    <filter-search v-if="filterClicked" @orderChanged="orderChanged" @filterChanged="filterChanged"></filter-search>
     <hr>
     <span v-if="errors">{{ this.errors.response.data.message }} | Retry in few seconds</span>
     <div v-else>
       <ul align="left" v-for="item in repos">
-        - {{ item.full_name }}
+        <li>
+        <span style="float:left;">{{ item.full_name }}</span>
+        <span style="float:right;">F:{{ item.forks_count }} S:{{ item.watchers_count }} A:0</span>
+        </li>
       </ul>
       <div class="pagination" v-for="page in pagenum">
         <a href="#" @click="fetchRepos(page)">{{ page }}</a>
@@ -22,8 +25,10 @@ const API = 'https://api.github.com/search/repositories?q=';
 export default {
   data () {
     return {
-      searchQuery: 'mediax',
+      searchQuery: 'ayoub',
       filterClicked: false,
+      checkedOrder: '',
+      checkedFilters: [],
       pagenum: 1,
       perpage: 20,
       repos: [],
@@ -52,6 +57,14 @@ export default {
       //call fetchRepos with searched query if its not empty
       if(event.target.value != '')
         this.searchQuery = event.target.value, this.fetchRepos(this.pagenum);
+    },
+    orderChanged(event) {
+      this.checkedOrder = event;
+      console.log(this.checkedOrder);
+    },
+    filterChanged(event) {
+      this.checkedFilters = event;
+      console.log(this.checkedFilters[0]);
     }
   }
 }

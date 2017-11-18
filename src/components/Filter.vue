@@ -1,18 +1,18 @@
 <template>
   <div class="filtersearch">
-  <span class="alignorder">Order by: 
-    <select v-model="checkedOrder">
-      <option selected>Stars</option>
-      <option>Forks</option>
-      <option>Updated</option>
+  <span class="alignorder">Order by:
+    <select @input="orderClicked">
+      <option selected value="stars">Stars</option>
+      <option value="forks">Forks</option>
+      <option value="updated">Updated</option>
     </select>
   </span>
-  <span class="alignfilter">Filter by: 
-    <input type="checkbox" id="stars" value="stars" v-model="checkedFilters">
+  <span class="alignfilter">Filter by:
+    <input type="checkbox" id="stars" value="stars" v-model="checkedValues" @change="filterClicked">
     <label for="jack">Stars</label>
-    <input type="checkbox" id="forks" value="forks" v-model="checkedFilters">
+    <input type="checkbox" id="forks" value="forks" v-model="checkedValues" @change="filterClicked">
     <label for="john">Forks</label>
-    <input type="checkbox" id="activity" value="activity" v-model="checkedFilters">
+    <input type="checkbox" id="activity" value="activity" v-model="checkedValues" @change="filterClicked">
     <label for="mike">Activity</label>
   </span>
   </div>
@@ -22,8 +22,15 @@
 export default {
   data () {
     return {
-      checkedOrder: '',
-      checkedFilters: []
+      checkedValues: []
+    }
+  },
+  methods: {
+    orderClicked(event) {
+      this.$emit('orderChanged', event.target.value);
+    },
+    filterClicked(event) {
+      this.$emit('filterChanged', this.checkedValues);
     }
   }
 }
