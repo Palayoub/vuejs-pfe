@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input class="inputsearch" type="text" name="search" placeholder="Searching..." @input="changedSearch"/>
+    <input class="inputsearch" type="text" name="search" placeholder="Searching..." debounce="1000" @input="changedSearch"/>
     <button class="button" @click="filterClicked = !filterClicked">filter</button>
     <filter-search v-if="filterClicked"></filter-search>
     <hr>
@@ -49,7 +49,9 @@ export default {
     },
     //Method to call each time our search input is changed
     changedSearch(event) {
-      this.searchQuery = event.target.value, this.fetchRepos(this.pagenum);
+      //call fetchRepos with searched query if its not empty
+      if(event.target.value != '')
+        this.searchQuery = event.target.value, this.fetchRepos(this.pagenum);
     }
   }
 }
