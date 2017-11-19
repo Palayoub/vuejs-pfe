@@ -1,6 +1,6 @@
-# vuejs-pfe
+## Vuejs-pfe
 
-> This is a skill test mainly about consuming github APIs.
+> This is a vuejs project mainly about consuming github APIs.
 
 ## Build Setup
 
@@ -14,5 +14,5 @@ npm run dev
 ## Notes
 
 * The main components are within a separate file in ./src/components folder.
-* API is consumed as unauthenticated user which means up to 60 requests per hour. (https://developer.github.com/v3/#rate-limiting).
+* API is consumed as unauthenticated user which means up to 60 requests per hour (https://developer.github.com/v3/#rate-limiting).
 * I deployed a demo version on my server: http://138.197.117.115:3000
