@@ -21,13 +21,16 @@
 export default {
   data () {
     return {
+      //checkedValues contains the current checked checkboxes
       checkedValues: []
     }
   },
   methods: {
+    //We emit the event when orderChanged to the parent component
     orderClicked(event) {
       this.$emit('orderChanged', event.target.value);
     },
+    //We emit the value of checkedValues when filterChanged to the parent component
     filterClicked(event) {
       this.$emit('filterChanged', this.checkedValues);
     }

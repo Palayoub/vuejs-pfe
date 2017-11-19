@@ -26,18 +26,27 @@ const API = 'https://api.github.com/search/repositories?q=';
 export default {
   data () {
     return {
+      //contains the search query of the user
       searchQuery: 'github',
+      //to show/hide the filter component
       filterClicked: false,
+      //contains the order
       checkedOrder: '',
+      //contains a list of the filters checked
       checkedFilters: [],
+      //contains our final filter query
       filterQuery: '',
+      //pagenumber of a query
       pagenum: 1,
+      //how many elements we want to show per page
       perpage: 20,
+      //list of our results
       repos: [],
+      //contains our error response
       errors: null,
     }
   },
-  //fetch result at component created
+  //fetch result when component is created with default value 'github'
   created() {
     this.fetchRepos(this.pagenum);
   },
@@ -46,7 +55,7 @@ export default {
     fetchRepos(pagenum) {
       axios.get(API + this.searchQuery + this.filterQuery + '&per_page=' + this.perpage + '&page=' + pagenum + '&sort=' + this.checkedOrder + '&order=desc')
         .then(response => {
-        //only update page number if there are multiple pages
+        //only update pagenumber if there are multiple pages
           if('link' in response.headers)
             this.pagenum = parseInt(response.headers.link.split(';')[1].split('=')[4]);
           this.repos = response.data.items
